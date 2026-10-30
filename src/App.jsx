@@ -1,122 +1,96 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { Home } from "./pages/Home";
+import { Explore } from "./pages/Explore";
+import { MapScreen } from "./pages/MapScreen";
+import { Profile } from "./pages/Profile";
+import { HelpScreen } from "./pages/HelpScreen";
+import { ErrorScreen } from "./pages/ErrorScreen";
+import { BottomNav } from "./components/BottomNav";
+import { Icon } from "./components/Icon";
+import { GuideSheet } from "./modals/GuideSheet";
+import { PointSheet } from "./modals/PointSheet";
+import { AuthSheet } from "./modals/AuthSheet";
+import { ConfirmDialog } from "./modals/ConfirmDialog";
+import { useOnlineStatus } from "./hooks/useOnlineStatus";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [activePage, setActivePage] = useState("home");
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("Todos");
+  const [dark, setDark] = useState(false);
+  const [guide, setGuide] = useState(null);
+  const [point, setPoint] = useState(null);
+  const [auth, setAuth] = useState(false);
+  const [logged, setLogged] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const [message, setMessage] = useState("");
+  
+  const isOnline = useOnlineStatus();
+
+  const showToast = (text) => {
+    setMessage(text);
+    window.setTimeout(() => setMessage(""), 2600);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
+    <div className={dark ? "app-shell dark" : "app-shell"}>
+      <div className="mobile-app">
+        {activePage === "home" && <Home openSearch={() => setActivePage("explore")} openGuide={setGuide} goMap={() => setActivePage("map")}/>}
+        {activePage === "explore" && <Explore query={query} setQuery={setQuery} category={category} setCategory={setCategory} openGuide={setGuide}/>}
+        {activePage === "map" && <MapScreen selectPoint={setPoint}/>}
+        {activePage === "profile" && (
+          <Profile 
+            dark={dark} 
+            setDark={setDark} 
+            logged={logged} 
+            openAuth={() => setAuth(true)} 
+            requestLogout={() => setConfirm(true)} 
+            toast={showToast} 
+            goHelp={() => setActivePage("help")}
+          />
+        )}
+        
+        {activePage === "help" && <HelpScreen goBack={() => setActivePage("profile")} />}
+        {activePage === "error" && <ErrorScreen goHome={() => setActivePage("home")} />}
+
+        <BottomNav active={activePage} setActive={setActivePage}/>
+        
+        <button className="scan-button" onClick={() => { setActivePage("explore"); showToast("Escribe el objeto para identificarlo"); }} aria-label="Identificar objeto">
+          <Icon name="scan" size={24}/>
         </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        
+        {!isOnline && (
+          <div className="offline-banner" role="alert">
+            <Icon name="info" size={18}/>
+            <span><strong>Sin conexión</strong><small>Puedes consultar las guías guardadas.</small></span>
+          </div>
+        )}
+        
+        {guide && <GuideSheet itemId={guide} close={() => setGuide(null)} toast={(text) => { showToast(text); setActivePage("map"); }}/>}
+        {point && <PointSheet pointId={point} close={() => setPoint(null)} toast={showToast}/>}
+        {auth && (
+          <AuthSheet 
+            close={() => setAuth(false)} 
+            success={(created) => { 
+              setAuth(false); 
+              setLogged(true); 
+              showToast(created ? "Cuenta creada y datos guardados" : "Sesión iniciada correctamente"); 
+            }}
+          />
+        )}
+        {confirm && (
+          <ConfirmDialog 
+            cancel={() => setConfirm(false)} 
+            confirm={() => { 
+              setConfirm(false); 
+              setLogged(false); 
+              showToast("Has cerrado sesión"); 
+            }}
+          />
+        )}
+        
+        {message && <div className="toast" role="status"><Icon name="check" size={17}/>{message}</div>}
+      </div>
+    </div>
+  );
 }
-
-export default App
