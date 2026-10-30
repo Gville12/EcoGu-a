@@ -10,8 +10,8 @@ export function Profile({ dark, setDark, logged, openAuth, requestLogout, toast,
       <section className="profile-card">
         <div className="profile-avatar">{logged ? "M" : <Icon name="user" size={30}/>}</div>
         <div>
-          <h1>{logged ? "Marta García" : "Tu cuenta Reverde"}</h1>
-          <p>{logged ? "Ecoexploradora · Nivel 3" : "Guarda favoritos y registra tu impacto"}</p>
+          <h1>{logged ? "Guillermo Cumbrera" : "Tu cuenta ECO"}</h1>
+          <p>{logged ? "Ecoexplorador · Nivel 3" : "Guarda favoritos y registra tu impacto"}</p>
         </div>
         {!logged && <Button onClick={openAuth}>Entrar</Button>}
       </section>
@@ -42,7 +42,7 @@ export function Profile({ dark, setDark, logged, openAuth, requestLogout, toast,
         <h2>Más información</h2>
         <button className="setting-row" onClick={goHelp}>
           <span className="setting-icon"><Icon name="info" size={20}/></span>
-          <span><strong>Sobre Reverde</strong><small>Accesibilidad, privacidad y ayuda</small></span>
+          <span><strong>Sobre EcoGuía</strong><small>Accesibilidad, privacidad y ayuda</small></span>
           <Icon name="chevron" size={18}/>
         </button>
         {logged && (

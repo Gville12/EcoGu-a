@@ -15,7 +15,7 @@ export function Header({ title, subtitle, back, action }) {
         {subtitle && <small>{subtitle}</small>}
       </div>
       
-      {action || (!back && <button className="avatar" aria-label="Abrir perfil">M</button>)}
+      {action || (!back && <button className="avatar" aria-label="Abrir perfil">G</button>)}
     </header>
   );
 }

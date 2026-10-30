@@ -8,8 +8,8 @@ export function Home({ openSearch, openGuide, goMap }) {
     <main className="screen home-screen">
       <Header/>
       <section className="welcome">
-        <p className="eyebrow">Miércoles, 11 de junio</p>
-        <h1>Hola, Marta.<br/><span>Reciclar hoy suma.</span></h1>
+        <p className="eyebrow">Miércoles, 11 de Noviembre</p>
+        <h1>Hola, Guillermo.<br/><span>Reciclar hoy suma.</span></h1>
       </section>
       <div className="home-search" onClick={openSearch}>
         <SearchField value="" onChange={() => {}} onFocus={openSearch}/>
