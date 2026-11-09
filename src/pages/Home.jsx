@@ -3,17 +3,29 @@ import { SearchField } from "../components/SearchField";
 import { Icon } from "../components/Icon";
 import { categories } from "../data/mockData";
 
-export function Home({ openSearch, openGuide, goMap }) {
+export function Home({ userName, openSearch, openGuide, goMap }) {
   return (
     <main className="screen home-screen">
-      <Header/>
+      <Header userName={userName}/>
+      
       <section className="welcome">
-        <p className="eyebrow">Miércoles, 11 de Noviembre</p>
-        <h1>Hola, Guillermo.<br/><span>Reciclar hoy suma.</span></h1>
+        <p className="eyebrow">Miércoles, 11 de junio</p>
+        <h1>
+          {userName ? (
+            <>
+              Hola, {userName}.<br/>
+              <span>Reciclar hoy suma.</span>
+            </>
+          ) : (
+            <span>Reciclar hoy suma.</span>
+          )}
+        </h1>
       </section>
+      
       <div className="home-search" onClick={openSearch}>
         <SearchField value="" onChange={() => {}} onFocus={openSearch}/>
       </div>
+      
       <section className="impact-card">
         <div className="impact-copy">
           <span className="impact-icon"><Icon name="leaf"/></span>
@@ -23,6 +35,7 @@ export function Home({ openSearch, openGuide, goMap }) {
         </div>
         <div className="progress-ring"><span>68%</span></div>
       </section>
+      
       <section>
         <div className="section-heading">
           <h2>¿Qué quieres reciclar?</h2>
@@ -36,6 +49,7 @@ export function Home({ openSearch, openGuide, goMap }) {
           ))}
         </div>
       </section>
+      
       <section className="near-card">
         <div className="near-map">
           <span className="mini-road road-one"/>
@@ -51,6 +65,7 @@ export function Home({ openSearch, openGuide, goMap }) {
           <Icon name="arrow" size={18}/>
         </button>
       </section>
+      
       <section>
         <div className="section-heading"><h2>Aprende algo nuevo</h2></div>
         <button className="tip-card" onClick={() => openGuide(4)}>

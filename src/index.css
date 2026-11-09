@@ -1,11 +1,7 @@
-/* =======================================================
-   IMPORTS
-   ======================================================= */
+
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap");
 
-/* =======================================================
-   VARIABLES GLOBALES Y RESET
-   ======================================================= */
+
 :root {
   font-family: "DM Sans", sans-serif;
   color: var(--ink);
@@ -70,9 +66,7 @@ h1, h2, h3, .logo {
   font-family: "Manrope", sans-serif;
 }
 
-/* =======================================================
-   LAYOUT PRINCIPAL (Estructura de la app)
-   ======================================================= */
+
 .app-shell {
   min-height: 100vh;
   display: grid;
@@ -103,9 +97,7 @@ h1, h2, h3, .logo {
   display: none;
 }
 
-/* =======================================================
-   COMPONENTES GLOBALES (Headers, Botones, etc.)
-   ======================================================= */
+
 .topbar {
   height: 82px;
   display: flex;
@@ -197,9 +189,7 @@ h1, h2, h3, .logo {
 .button--danger { color: white; background: var(--danger); }
 .button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* =======================================================
-   PANTALLA: INICIO (Home)
-   ======================================================= */
+
 .welcome { margin: 8px 0 22px; }
 
 .eyebrow {
@@ -387,9 +377,7 @@ h1, h2, h3, .logo {
 .tip-card strong { font: 700 13px "Manrope"; margin: 4px 0; }
 .tip-card em { color: var(--green-700); display: flex; align-items: center; gap: 5px; font-size: 10px; font-style: normal; font-weight: 700; }
 
-/* =======================================================
-   PANTALLA: BÚSQUEDA (Explore)
-   ======================================================= */
+
 .explore-screen > .search-field { margin-top: 4px; }
 
 .chips {
@@ -449,9 +437,7 @@ h1, h2, h3, .logo {
 .empty-state h2 { font-size: 18px; margin: 14px 0 6px; }
 .empty-state p { color: var(--ink-soft); font-size: 12px; line-height: 1.5; margin-bottom: 18px; }
 
-/* =======================================================
-   PANTALLA: MAPA (MapScreen)
-   ======================================================= */
+
 .map-screen { height: 100%; padding-bottom: 82px; position: relative; background: #dce8df; }
 .map-top { position: absolute; z-index: 3; top: 0; left: 20px; right: 20px; }
 
@@ -543,9 +529,7 @@ h1, h2, h3, .logo {
 .open { color: #398358; }
 .closed { color: var(--danger); }
 
-/* =======================================================
-   PANTALLA: PERFIL (Profile)
-   ======================================================= */
+
 .profile-card {
   padding: 17px;
   display: grid;
@@ -589,9 +573,7 @@ h1, h2, h3, .logo {
 .profile-foot { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--ink-soft); font-size: 9px; margin-top: 26px; }
 .profile-foot .logo-mark { width: 26px; height: 26px; border-radius: 9px 9px 9px 3px; }
 
-/* =======================================================
-   NAVEGACIÓN INFERIOR Y BOTONES FLOTANTES
-   ======================================================= */
+
 .bottom-nav {
   position: absolute;
   z-index: 10;
@@ -628,9 +610,7 @@ h1, h2, h3, .logo {
   box-shadow: 0 7px 20px rgba(32, 91, 62, 0.25);
 }
 
-/* =======================================================
-   MODALES Y VENTANAS EMERGENTES
-   ======================================================= */
+
 .overlay { position: absolute; z-index: 20; inset: 0; display: flex; align-items: flex-end; background: rgba(12, 31, 23, 0.52); backdrop-filter: blur(2px); animation: fade 0.2s ease-out; }
 .sheet { width: 100%; max-height: 91%; overflow-y: auto; position: relative; background: var(--cream); border-radius: 28px 28px 0 0; animation: slide 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); scrollbar-width: none; }
 .sheet-handle { width: 38px; height: 4px; border-radius: 99px; background: var(--line); margin: 9px auto 5px; }
@@ -698,9 +678,7 @@ h1, h2, h3, .logo {
 .confirm-dialog p { color: var(--ink-soft); font-size: 11px; line-height: 1.5; }
 .confirm-dialog > div { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 19px; }
 
-/* =======================================================
-   FEEDBACK (Toasts y Sin Conexión)
-   ======================================================= */
+
 .toast {
   position: absolute;
   z-index: 40;
@@ -742,9 +720,7 @@ h1, h2, h3, .logo {
 .offline-banner strong { font-size: 11px; }
 .offline-banner small { color: #f0ddbc; font-size: 9px; margin-top: 1px; }
 
-/* =======================================================
-   MODO OSCURO
-   ======================================================= */
+
 .dark {
   --cream: #111c17;
   --surface: #17251f;
@@ -767,9 +743,7 @@ h1, h2, h3, .logo {
 .dark .map-canvas { filter: brightness(0.68) saturate(0.75); }
 .dark .map-top, .dark .point-carousel, .dark .bottom-nav { filter: none; }
 
-/* =======================================================
-   ANIMACIONES Y MEDIA QUERIES (Responsive)
-   ======================================================= */
+
 @keyframes slide {
   from { transform: translateY(40px); opacity: 0.5; }
 }

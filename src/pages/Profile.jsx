@@ -3,17 +3,19 @@ import { Button } from "../components/Button";
 import { Icon } from "../components/Icon";
 import { Logo } from "../components/Logo";
 
-export function Profile({ dark, setDark, logged, openAuth, requestLogout, toast, goHelp }) {
+export function Profile({ userName, dark, setDark, logged, openAuth, requestLogout, toast, goHelp }) {
   return (
     <main className="screen profile-screen">
-      <Header title="Mi espacio" subtitle="Preferencias e impacto"/>
+      <Header title="Mi espacio" subtitle="Preferencias e impacto" userName={userName}/>
       <section className="profile-card">
-        <div className="profile-avatar">{logged ? "M" : <Icon name="user" size={30}/>}</div>
-        <div>
-          <h1>{logged ? "Guillermo Cumbrera" : "Tu cuenta ECO"}</h1>
-          <p>{logged ? "Ecoexplorador · Nivel 3" : "Guarda favoritos y registra tu impacto"}</p>
+        <div className="profile-avatar">
+          {userName ? userName.charAt(0).toUpperCase() : <Icon name="user" size={30}/>}
         </div>
-        {!logged && <Button onClick={openAuth}>Entrar</Button>}
+        <div>
+          <h1>{userName ? userName : "Tu cuenta ECO"}</h1>
+          <p>{userName ? "Ecoexplorador · Nivel 3" : "Guarda favoritos y registra tu impacto"}</p>
+        </div>
+        {!userName && <Button onClick={openAuth}>Entrar</Button>}
       </section>
       <section className="stats-row">
         <div><strong>12</strong><small>Objetos</small></div>
@@ -53,7 +55,7 @@ export function Profile({ dark, setDark, logged, openAuth, requestLogout, toast,
           </button>
         )}
       </section>
-      <p className="profile-foot"><Logo compact/> Pequeñas acciones. Un impacto enorme.</p>
+      <div className="profile-foot"><Logo compact/> <span>Pequeñas acciones. Un impacto enorme.</span></div>
     </main>
   );
 }

@@ -1,7 +1,7 @@
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
 
-export function Header({ title, subtitle, back, action }) {
+export function Header({ title, subtitle, back, action, userName }) {
   return (
     <header className="topbar">
       {back ? (
@@ -15,7 +15,12 @@ export function Header({ title, subtitle, back, action }) {
         {subtitle && <small>{subtitle}</small>}
       </div>
       
-      {action || (!back && <button className="avatar" aria-label="Abrir perfil">G</button>)}
+      {/* Solo muestra el círculo con la inicial si hay userName */}
+      {action || (!back && userName && (
+        <button className="avatar" aria-label="Abrir perfil">
+          {userName.charAt(0).toUpperCase()}
+        </button>
+      ))}
     </header>
   );
 }

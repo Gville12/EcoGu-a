@@ -21,9 +21,11 @@ export default function App() {
   const [guide, setGuide] = useState(null);
   const [point, setPoint] = useState(null);
   const [auth, setAuth] = useState(false);
-  const [logged, setLogged] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState("");
+  
+  const [userName, setUserName] = useState(sessionStorage.getItem("nombre") || null);
+  const logged = userName !== null;
   
   const isOnline = useOnlineStatus();
 
@@ -35,11 +37,32 @@ export default function App() {
   return (
     <div className={dark ? "app-shell dark" : "app-shell"}>
       <div className="mobile-app">
-        {activePage === "home" && <Home openSearch={() => setActivePage("explore")} openGuide={setGuide} goMap={() => setActivePage("map")}/>}
-        {activePage === "explore" && <Explore query={query} setQuery={setQuery} category={category} setCategory={setCategory} openGuide={setGuide}/>}
-        {activePage === "map" && <MapScreen selectPoint={setPoint}/>}
+        
+        {activePage === "home" && (
+          <Home 
+            userName={userName} 
+            openSearch={() => setActivePage("explore")} 
+            openGuide={setGuide} 
+            goMap={() => setActivePage("map")}
+          />
+        )}
+
+        {activePage === "explore" && (
+          <Explore 
+            userName={userName}
+            query={query} 
+            setQuery={setQuery} 
+            category={category} 
+            setCategory={setCategory} 
+            openGuide={setGuide}
+          />
+        )}
+
+        {activePage === "map" && <MapScreen userName={userName} selectPoint={setPoint} />}
+
         {activePage === "profile" && (
           <Profile 
+            userName={userName}
             dark={dark} 
             setDark={setDark} 
             logged={logged} 
@@ -53,43 +76,73 @@ export default function App() {
         {activePage === "help" && <HelpScreen goBack={() => setActivePage("profile")} />}
         {activePage === "error" && <ErrorScreen goHome={() => setActivePage("home")} />}
 
-        <BottomNav active={activePage} setActive={setActivePage}/>
+        <BottomNav active={activePage} setActive={setActivePage} />
         
-        <button className="scan-button" onClick={() => { setActivePage("explore"); showToast("Escribe el objeto para identificarlo"); }} aria-label="Identificar objeto">
-          <Icon name="scan" size={24}/>
+        <button 
+          className="scan-button" 
+          onClick={() => { setActivePage("explore"); showToast("Escribe el objeto para identificarlo"); }} 
+          aria-label="Identificar objeto"
+        >
+          <Icon name="scan" size={24} />
         </button>
         
         {!isOnline && (
           <div className="offline-banner" role="alert">
-            <Icon name="info" size={18}/>
-            <span><strong>Sin conexión</strong><small>Puedes consultar las guías guardadas.</small></span>
+            <Icon name="info" size={18} />
+            <span>
+              <strong>Sin conexión</strong>
+              <small>Puedes consultar las guías guardadas.</small>
+            </span>
           </div>
         )}
         
-        {guide && <GuideSheet itemId={guide} close={() => setGuide(null)} toast={(text) => { showToast(text); setActivePage("map"); }}/>}
-        {point && <PointSheet pointId={point} close={() => setPoint(null)} toast={showToast}/>}
+        {guide && (
+          <GuideSheet 
+            itemId={guide} 
+            close={() => setGuide(null)} 
+            toast={(text) => { showToast(text); setActivePage("map"); }} 
+          />
+        )}
+        
+        {point && (
+          <PointSheet 
+            pointId={point} 
+            close={() => setPoint(null)} 
+            toast={showToast} 
+          />
+        )}
+        
         {auth && (
           <AuthSheet 
             close={() => setAuth(false)} 
-            success={(created) => { 
+            success={(data) => { 
+              console.log("Datos recibidos del login:", data); // <-- AÑADE ESTO PARA VER QUÉ LLEGA
               setAuth(false); 
-              setLogged(true); 
-              showToast(created ? "Cuenta creada y datos guardados" : "Sesión iniciada correctamente"); 
+              setUserName(data.nombre); 
+              showToast(data.isRegister ? "Cuenta creada y datos guardados" : "Sesión iniciada correctamente"); 
             }}
           />
         )}
+        
         {confirm && (
           <ConfirmDialog 
             cancel={() => setConfirm(false)} 
             confirm={() => { 
               setConfirm(false); 
-              setLogged(false); 
+              setUserName(null); 
+              sessionStorage.clear(); 
               showToast("Has cerrado sesión"); 
             }}
           />
         )}
         
-        {message && <div className="toast" role="status"><Icon name="check" size={17}/>{message}</div>}
+        {message && (
+          <div className="toast" role="status">
+            <Icon name="check" size={17} />
+            {message}
+          </div>
+        )}
+        
       </div>
     </div>
   );

@@ -9,23 +9,73 @@ export function AuthSheet({ close, success }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  
-  const handleSubmit = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (register && name.trim().length < 2) return setError("Escribe tu nombre para crear la cuenta.");
-    if (!email.includes("@")) return setError("Escribe un correo válido que incluya @.");
-    if (password.length < 6) return setError("La contraseña debe tener al menos 6 caracteres.");
-    success(register);
-  }
+    setError("");
+    setLoading(true);
+
+    if (register && name.trim().length < 2) {
+      setError("Escribe tu nombre para crear la cuenta.");
+      setLoading(false);
+      return;
+    }
+    if (!email.includes("@")) {
+      setError("Escribe un correo válido que incluya @.");
+      setLoading(false);
+      return;
+    }
+    if (password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres.");
+      setLoading(false);
+      return;
+    }
+
+    const url = register 
+      ? "http://localhost:8080/auth/register" 
+      : "http://localhost:8080/auth/login";
+
+    const bodyData = register 
+      ? { nombre: name, email: email, password: password }
+      : { email: email, password: password };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bodyData)
+      });
+
+      if (response.ok) {
+        const data = await response.json(); // Leemos JSON
+        
+        // GUARDAMOS EN SESSION STORAGE
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("nombre", data.nombre);
+        
+        // ENVIAMOS EL OBJETO (¡No un booleano!)
+        success({ isRegister: register, nombre: data.nombre }); 
+      } else {
+        const errorText = await response.text();
+        setError(errorText);
+      }
+    } catch (err) {
+      setError("No hay conexión con el servidor.");
+    } finally {
+      setLoading(false);
+    }
+  };
   
   return (
     <div className="overlay">
-      <section className="sheet auth-sheet" role="dialog" aria-modal="true" aria-label="Acceso a Reverde">
+      <section className="sheet auth-sheet" role="dialog" aria-modal="true" aria-label="Acceso a EcoGuía">
         <div className="sheet-handle"/>
         <button className="sheet-close" onClick={close} aria-label="Cerrar"><Icon name="close" size={19}/></button>
         <Logo/>
         <h1>{register ? "Crea tu cuenta" : "Qué bueno verte"}</h1>
         <p>{register ? "Empieza a medir tu impacto positivo." : "Accede a tus favoritos y a tu progreso."}</p>
+        
         <form onSubmit={handleSubmit} noValidate>
           {register && (
             <label className="form-field">
@@ -41,9 +91,14 @@ export function AuthSheet({ close, success }) {
             <span>Contraseña</span>
             <input type="password" placeholder="Mínimo 6 caracteres" value={password} onChange={e => { setPassword(e.target.value); setError(""); }} autoComplete={register ? "new-password" : "current-password"}/>
           </label>
+          
           {error && <p className="form-error" role="alert"><Icon name="info" size={17}/>{error}</p>}
-          <Button type="submit">{register ? "Crear cuenta" : "Iniciar sesión"}</Button>
+          
+          <Button type="submit" disabled={loading}>
+            {loading ? "Procesando..." : (register ? "Crear cuenta" : "Iniciar sesión")}
+          </Button>
         </form>
+        
         <button className="auth-switch" onClick={() => { setRegister(!register); setError(""); }}>
           {register ? "¿Ya tienes cuenta? Inicia sesión" : "¿Aún no tienes cuenta? Regístrate"}
         </button>

@@ -5,14 +5,14 @@ import { Icon } from "../components/Icon";
 import { Button } from "../components/Button";
 import { categories, items } from "../data/mockData";
 
-export function Explore({ query, setQuery, category, setCategory, openGuide }) {
+export function Explore({ userName, query, setQuery, category, setCategory, openGuide }) {
   const filtered = useMemo(() => 
     items.filter(item => (category === "Todos" || item.category === category) && item.name.toLowerCase().includes(query.toLowerCase())), 
   [query, category]);
 
   return (
     <main className="screen explore-screen">
-      <Header title="Guía de reciclaje" subtitle="Encuentra el lugar correcto"/>
+      <Header title="Guía de reciclaje" subtitle="Encuentra el lugar correcto" userName={userName}/>
       <SearchField value={query} onChange={setQuery} autoFocus={false}/>
       <div className="chips" role="list">
         {categories.map(cat => (
