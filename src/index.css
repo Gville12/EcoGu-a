@@ -722,26 +722,221 @@ h1, h2, h3, .logo {
 
 
 .dark {
-  --cream: #111c17;
-  --surface: #17251f;
-  --surface-soft: #1b2b24;
-  --ink: #e8f2eb;
-  --ink-soft: #a3b5aa;
-  --line: #2b3d34;
-  --green-100: #203d30;
-  --green-200: #315844;
-  --green-900: #c9ecd5;
-  --green-800: #91d0aa;
-  --green-700: #72ba90;
-  background: #0b1510;
+  --cream: #0f1714;
+  --surface: #1a2621;
+  --surface-soft: #22322b;
+  --ink: #f0f7f3;
+  --ink-soft: #9fb3a8;
+  --line: #2d3d35;
+  --green-100: #223b2f;
+  --green-200: #335c47;
+  --green-900: #e0f2e7;
+  --green-800: #a3d4b8;
+  --green-700: #46a370;
+  background: #0f1714;
 }
 
-.dark .logo-mark, .dark .impact-card { background: #285a42; color: white; }
-.dark .impact-card .progress-ring::before { background: #285a42; }
-.dark .profile-card { background: #203d30; }
-.dark .category-card span, .dark .detail-hero { filter: brightness(0.62) saturate(0.8); }
-.dark .map-canvas { filter: brightness(0.68) saturate(0.75); }
-.dark .map-top, .dark .point-carousel, .dark .bottom-nav { filter: none; }
+/* Buscador (Iconos y textos) */
+.dark .search-field {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink-soft);
+}
+.dark .search-field input {
+  color: var(--ink);
+}
+.dark .search-field input::placeholder {
+  color: var(--ink-soft);
+}
+.dark .search-field svg {
+  color: var(--green-700); /* Icono de la lupa */
+}
+.dark .search-field button svg {
+  color: var(--ink-soft); /* Botón de borrar (X) */
+}
+
+/* Tarjetas de reciclaje y textos de Búsqueda (Explore) */
+.dark .recycle-item {
+  background: var(--surface);
+  border-color: var(--line);
+}
+.dark .item-copy strong {
+  color: var(--ink);
+}
+.dark .item-copy small, 
+.dark .item-copy span {
+  color: var(--ink-soft);
+}
+.dark .chip {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink-soft);
+}
+.dark .chip.active {
+  background: var(--green-700);
+  border-color: var(--green-700);
+  color: #ffffff; /* Texto blanco para que resalte en el verde */
+}
+
+/* Botones principales (Login, Crear Cuenta, etc.) */
+.dark .button--primary {
+  background: var(--green-700);
+  color: #ffffff; /* Forzamos texto blanco */
+}
+.dark .button--secondary {
+  background: var(--green-100);
+  color: var(--green-800);
+  border-color: var(--green-200);
+}
+.dark .button--danger {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+/* Tarjeta de perfil y su botón "Entrar" */
+.dark .profile-card {
+  background: #173125;
+  border: 1px solid var(--line);
+}
+.dark .profile-card .button {
+  background: #ffffff;
+  color: #173125; /* Texto oscuro porque el fondo es blanco */
+}
+
+/* Tarjeta de impacto (Inicio) */
+.dark .impact-card {
+  background: #173125;
+  border: 1px solid var(--line);
+}
+.dark .impact-card .progress-ring::before {
+  background: #173125;
+}
+
+/* Categorías de Inicio (Envases, Papel...) */
+.dark .category-0 span { background: #4a4423; color: #fff0b8; }
+.dark .category-1 span { background: #233c56; color: #dcecff; }
+.dark .category-2 span { background: #23422e; color: #d9f0df; }
+.dark .category-3 span { background: #423426; color: #eadfcf; }
+
+/* Iconos de los objetos (PET, CAR, etc.) */
+.dark .item-symbol {
+  color: #0f1714; /* Texto oscuro para que se lea sobre los fondos claros */
+}
+
+/* Modales (Login, Guía de reciclaje) */
+.dark .sheet-close {
+  background: var(--surface);
+  color: var(--ink);
+}
+.dark .detail-hero {
+  background: var(--surface-soft);
+}
+.dark .detail-hero span {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+}
+.dark .detail-hero small {
+  background: var(--surface);
+  color: var(--ink);
+}
+.dark .bin-card {
+  background: var(--surface);
+  border-color: var(--line);
+}
+.dark .form-error {
+  background: rgba(185, 73, 66, 0.2);
+  color: #f7a19b;
+}
+
+/* Mapa */
+.dark .map-canvas { background-color: #121e17; }
+.dark .street { background: #26352c; border-color: #121e17; }
+.dark .street::after { border-color: #3d4f43; }
+.dark .park { background: #1b3324; }
+.dark .water { background: #142b36; }
+.dark .map-label { color: #5c7a68; }
+.dark .map-top .map-search { background: var(--surface); color: var(--ink); }
+.dark .map-filters button { background: var(--surface); color: var(--ink-soft); }
+.dark .map-filters button.active { background: var(--green-700); color: #ffffff; }
+.dark .point-card { background: var(--surface); }
+.dark .point-copy strong { color: var(--ink); }
+
+/* Ajustes generales de tarjetas y fondos */
+.dark .tip-card { background: var(--surface); }
+.dark .near-card { background: var(--surface); border-color: var(--line); }
+.dark .near-map { background: var(--surface-soft); }
+.dark .mini-road { background: var(--line); }
+.dark .stats-row { background: var(--surface); border-color: var(--line); }
+.dark .setting-row { border-color: var(--line); }
+.dark .setting-icon { background: var(--green-100); color: var(--green-700); }
+.dark .bottom-nav { background: color-mix(in srgb, var(--surface) 94%, transparent); border-color: var(--line); }
+.dark .bottom-nav button { color: var(--ink-soft); }
+.dark .bottom-nav button.active { color: var(--green-700); }
+
+.active-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 15px;
+  font-size: 11px;
+}
+.active-filters > span {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+.filter-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--green-100);
+  color: var(--green-800);
+  padding: 5px 10px;
+  border-radius: 99px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-tag:hover {
+  background: var(--green-200);
+}
+.filter-tag svg {
+  color: var(--green-800);
+}
+.clear-all {
+  color: var(--danger);
+  font-weight: 700;
+  font-size: 10px;
+  margin-left: auto;
+  cursor: pointer;
+}
+.loading-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  animation: fade 0.2s ease-in-out;
+}
+
+/* Ajustes para el Modo Oscuro de los Filtros */
+.dark .filter-tag {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+.dark .filter-tag:hover {
+  background: var(--surface-soft);
+}
+.dark .filter-tag svg {
+  color: var(--ink-soft);
+}
+.dark .active-filters > span {
+  color: var(--ink-soft);
+}
+.dark .clear-all {
+  color: #f7a19b;
+}
 
 
 @keyframes slide {
